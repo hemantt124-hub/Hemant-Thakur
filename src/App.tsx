@@ -8,6 +8,7 @@ import { ServicesView } from './views/ServicesView';
 import { PortfolioView } from './views/PortfolioView';
 import { ContactView } from './views/ContactView';
 import { FloatingWhatsApp } from './components/FloatingWhatsApp';
+import { HostingerExportBanner } from './components/HostingerExportBanner';
 
 export default function App() {
   const [activePage, setActivePage] = useState<PageType>('home');
@@ -85,6 +86,9 @@ export default function App() {
 
       {/* Floating WhatsApp Action Button */}
       <FloatingWhatsApp />
+
+      {/* Hostinger Quick Export Download Banner */}
+      <HostingerExportBanner />
     </div>
   );
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 import { PageType } from '../types';
-import { Mail, Globe, ArrowUpRight, Linkedin, Twitter, Github, Instagram, MapPin } from 'lucide-react';
+import { Mail, Globe, ArrowUpRight, Linkedin, Twitter, Github, Instagram, MapPin, Download } from 'lucide-react';
 import { WhatsAppIcon, WHATSAPP_LINK, WHATSAPP_PHONE } from './WhatsAppIcon';
 
 interface FooterProps {
@@ -243,7 +243,19 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
 
         {/* Bottom bar */}
         <div className="mt-14 pt-8 border-t border-slate-800/60 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400">
-          <p>© {currentYear} Hemant Thakur. All rights reserved.</p>
+          <div className="flex flex-wrap items-center gap-3">
+            <p>© {currentYear} Hemant Thakur. All rights reserved.</p>
+            <span className="hidden sm:inline text-slate-700">·</span>
+            <a
+              href="/hostinger-deploy.zip"
+              download="hemantthakur-hostinger-deploy.zip"
+              className="hover:text-emerald-400 text-slate-500 transition-colors inline-flex items-center gap-1.5"
+              title="Download pre-built ZIP package ready to extract into Hostinger public_html"
+            >
+              <Download className="w-3.5 h-3.5 text-emerald-400" />
+              <span>Download Hostinger ZIP</span>
+            </a>
+          </div>
           <p className="text-slate-400">
             Delhi, India · Designed for Performance, Accessibility & Organic Search Dominance
           </p>
