@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Mail, Copy, Check, ArrowUpRight, MapPin, Clock, Globe, ShieldCheck, Sparkles, MessageSquare } from 'lucide-react';
+import { Mail, Copy, Check, ArrowUpRight, MapPin, Clock, Globe, ShieldCheck, Sparkles, Linkedin, Instagram } from 'lucide-react';
 import { PageType } from '../types';
+import { OFFICIAL_SOCIALS } from '../seo/routesMeta';
 import { WhatsAppIcon, WHATSAPP_LINK, WHATSAPP_PHONE } from '../components/WhatsAppIcon';
 
 interface ContactViewProps {
@@ -124,9 +125,9 @@ export const ContactView: React.FC<ContactViewProps> = ({ onNavigate }) => {
               rel="noopener noreferrer"
               className="w-full inline-flex items-center justify-center gap-2 px-6 py-4 rounded-xl bg-[#25D366] hover:bg-[#20bd5a] text-white font-bold text-sm shadow-xl shadow-emerald-950/40 transition-all hover:scale-[1.02] active:scale-[0.98]"
             >
-              <WhatsAppIcon className="w-4 h-4 text-white" />
-              <span>Let's Chat on WhatsApp</span>
-              <ArrowUpRight className="w-4 h-4" />
+              <WhatsAppIcon className="w-4 h-4 text-white" ariaHidden />
+              <span>Let&apos;s Chat on WhatsApp</span>
+              <ArrowUpRight className="w-4 h-4" aria-hidden="true" />
             </a>
             <div className="text-center text-[11px] text-slate-400">
               Pre-filled: "Hi, I would like to discuss my project with you."
@@ -237,7 +238,7 @@ export const ContactView: React.FC<ContactViewProps> = ({ onNavigate }) => {
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-[#25D366]/20 hover:bg-[#25D366]/30 border border-[#25D366]/40 text-emerald-300 text-xs font-semibold transition-colors"
                   >
-                    <WhatsAppIcon className="w-3.5 h-3.5 text-[#25D366]" />
+                    <WhatsAppIcon className="w-3.5 h-3.5 text-[#25D366]" ariaHidden />
                     <span>WhatsApp</span>
                   </a>
 
@@ -267,19 +268,41 @@ export const ContactView: React.FC<ContactViewProps> = ({ onNavigate }) => {
           </p>
         </div>
 
-        <div className="p-6 rounded-2xl bg-[#0c0c13] border border-slate-800 space-y-2">
+        <div className="p-6 rounded-2xl bg-[#0c0c13] border border-slate-800 space-y-3">
           <div className="flex items-center gap-2 text-white font-semibold text-sm">
-            <Globe className="w-4 h-4 text-indigo-400" />
-            <span>Official Domain</span>
+            <Globe className="w-4 h-4 text-indigo-400" aria-hidden="true" />
+            <span>Official Profiles &amp; Domain</span>
           </div>
           <p className="text-xs text-slate-300 leading-relaxed">
-            Registered at <span className="text-violet-300 font-mono">https://hemantthakur.in</span>. Dedicated portfolio & service hub.
+            Registered at <span className="text-violet-300 font-mono">https://hemantthakur.in</span>. Dedicated portfolio &amp; service hub.
           </p>
+          <div className="flex flex-wrap items-center gap-2 pt-1">
+            <a
+              href={OFFICIAL_SOCIALS.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Hemant Thakur Official LinkedIn Profile"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-200 hover:text-white text-xs font-medium transition-colors"
+            >
+              <Linkedin className="w-3.5 h-3.5 text-violet-400" aria-hidden="true" />
+              <span>LinkedIn</span>
+            </a>
+            <a
+              href={OFFICIAL_SOCIALS.instagram}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Hemant Thakur Official Instagram Profile"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-200 hover:text-white text-xs font-medium transition-colors"
+            >
+              <Instagram className="w-3.5 h-3.5 text-indigo-400" aria-hidden="true" />
+              <span>Instagram</span>
+            </a>
+          </div>
         </div>
 
         <div className="p-6 rounded-2xl bg-[#0c0c13] border border-slate-800 space-y-2">
           <div className="flex items-center gap-2 text-white font-semibold text-sm">
-            <ShieldCheck className="w-4 h-4 text-violet-400" />
+            <ShieldCheck className="w-4 h-4 text-violet-400" aria-hidden="true" />
             <span>Direct Integrity</span>
           </div>
           <p className="text-xs text-slate-300 leading-relaxed">

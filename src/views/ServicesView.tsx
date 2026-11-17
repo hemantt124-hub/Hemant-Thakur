@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { servicesData } from '../data/servicesData';
 import {
   TrendingUp,
@@ -23,6 +23,16 @@ interface ServicesViewProps {
 
 export const ServicesView: React.FC<ServicesViewProps> = ({ onNavigate }) => {
   const [selectedServiceId, setSelectedServiceId] = useState<string>(servicesData[0].id);
+
+  useEffect(() => {
+    const hash = window.location.hash.replace(/^#/, '');
+    if (hash && servicesData.some((s) => s.id === hash)) {
+      setSelectedServiceId(hash);
+      setTimeout(() => {
+        document.getElementById(hash)?.scrollIntoView({ behavior: 'smooth' });
+      }, 120);
+    }
+  }, []);
 
   const activeService: ServiceItem =
     servicesData.find((s) => s.id === selectedServiceId) || servicesData[0];
@@ -63,12 +73,19 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ onNavigate }) => {
       </div>
 
       {/* 2. Interactive Service Navigator (Tabs on Desktop & Mobile selector) */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 p-1.5 rounded-2xl bg-slate-900/60 border border-slate-800">
+      <div
+        role="tablist"
+        aria-label="Service Verticals"
+        className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 p-1.5 rounded-2xl bg-slate-900/60 border border-slate-800"
+      >
         {servicesData.map((service) => {
           const isSelected = service.id === selectedServiceId;
           return (
             <button
               key={service.id}
+              type="button"
+              role="tab"
+              aria-selected={isSelected}
               onClick={() => setSelectedServiceId(service.id)}
               className={`flex flex-col items-center justify-center p-3 rounded-xl transition-all duration-200 cursor-pointer text-center gap-1.5 ${
                 isSelected
@@ -108,7 +125,7 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ onNavigate }) => {
                 rel="noopener noreferrer"
                 className="inline-flex h-11 items-center justify-center gap-2 px-5 rounded-xl bg-[#25D366] hover:bg-[#20bd5a] text-white font-semibold text-xs shadow-md shadow-emerald-950/40 transition-all hover:scale-[1.02] active:scale-[0.98] whitespace-nowrap"
               >
-                <WhatsAppIcon className="w-3.5 h-3.5 text-white" />
+                <WhatsAppIcon className="w-3.5 h-3.5 text-white" ariaHidden />
                 <span>WhatsApp Me</span>
               </a>
 
@@ -304,7 +321,7 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ onNavigate }) => {
             rel="noopener noreferrer"
             className="w-full sm:w-auto inline-flex h-12 items-center justify-center gap-2.5 px-6 rounded-xl bg-[#25D366] hover:bg-[#20bd5a] text-white font-bold text-xs shadow-xl shadow-emerald-950/40 transition-all hover:scale-105 whitespace-nowrap"
           >
-            <WhatsAppIcon className="w-4 h-4 text-white" />
+            <WhatsAppIcon className="w-4 h-4 text-white" ariaHidden />
             <span>Chat on WhatsApp (+91 8595639475)</span>
           </a>
 

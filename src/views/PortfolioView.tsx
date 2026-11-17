@@ -1,16 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { portfolioData } from '../data/portfolioData';
 import { ProjectItem, PageType } from '../types';
 import {
   ExternalLink,
-  Info,
   CheckCircle2,
   Mail,
   ArrowUpRight,
   Sparkles,
   Layers,
-  X,
-  Globe
+  X
 } from 'lucide-react';
 import { WhatsAppIcon, WHATSAPP_LINK } from '../components/WhatsAppIcon';
 
@@ -21,6 +19,15 @@ interface PortfolioViewProps {
 export const PortfolioView: React.FC<PortfolioViewProps> = ({ onNavigate }) => {
   const [filter, setFilter] = useState<'all' | 'web-dev' | 'seo' | 'performance' | 'digital-marketing'>('all');
   const [selectedProject, setSelectedProject] = useState<ProjectItem | null>(null);
+
+  useEffect(() => {
+    if (!selectedProject) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setSelectedProject(null);
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [selectedProject]);
 
   const filteredProjects =
     filter === 'all'
@@ -55,8 +62,14 @@ export const PortfolioView: React.FC<PortfolioViewProps> = ({ onNavigate }) => {
       </div>
 
       {/* 3. Category Filter Tabs */}
-      <div className="flex flex-wrap items-center gap-2 p-1.5 rounded-xl bg-slate-900/60 border border-slate-800 w-fit">
+      <div
+        role="group"
+        aria-label="Filter projects by discipline"
+        className="flex flex-wrap items-center gap-2 p-1.5 rounded-xl bg-slate-900/60 border border-slate-800 w-fit"
+      >
         <button
+          type="button"
+          aria-pressed={filter === 'all'}
           onClick={() => setFilter('all')}
           className={`px-3.5 py-1.5 rounded-lg text-xs font-medium transition-colors cursor-pointer ${
             filter === 'all'
@@ -67,6 +80,8 @@ export const PortfolioView: React.FC<PortfolioViewProps> = ({ onNavigate }) => {
           All Projects ({portfolioData.length})
         </button>
         <button
+          type="button"
+          aria-pressed={filter === 'web-dev'}
           onClick={() => setFilter('web-dev')}
           className={`px-3.5 py-1.5 rounded-lg text-xs font-medium transition-colors cursor-pointer ${
             filter === 'web-dev'
@@ -77,6 +92,8 @@ export const PortfolioView: React.FC<PortfolioViewProps> = ({ onNavigate }) => {
           Web Development
         </button>
         <button
+          type="button"
+          aria-pressed={filter === 'seo'}
           onClick={() => setFilter('seo')}
           className={`px-3.5 py-1.5 rounded-lg text-xs font-medium transition-colors cursor-pointer ${
             filter === 'seo'
@@ -87,6 +104,8 @@ export const PortfolioView: React.FC<PortfolioViewProps> = ({ onNavigate }) => {
           Technical SEO
         </button>
         <button
+          type="button"
+          aria-pressed={filter === 'performance'}
           onClick={() => setFilter('performance')}
           className={`px-3.5 py-1.5 rounded-lg text-xs font-medium transition-colors cursor-pointer ${
             filter === 'performance'
@@ -97,6 +116,8 @@ export const PortfolioView: React.FC<PortfolioViewProps> = ({ onNavigate }) => {
           Performance Marketing
         </button>
         <button
+          type="button"
+          aria-pressed={filter === 'digital-marketing'}
           onClick={() => setFilter('digital-marketing')}
           className={`px-3.5 py-1.5 rounded-lg text-xs font-medium transition-colors cursor-pointer ${
             filter === 'digital-marketing'
@@ -117,7 +138,7 @@ export const PortfolioView: React.FC<PortfolioViewProps> = ({ onNavigate }) => {
           >
             {/* Browser Chrome Bar */}
             <div className="bg-[#11111a] px-4 py-3 border-b border-slate-800 flex items-center justify-between">
-              <div className="flex items-center gap-1.5">
+              <div className="flex items-center gap-1.5" aria-hidden="true">
                 <div className="w-2.5 h-2.5 rounded-full bg-red-500/70" />
                 <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/70" />
                 <div className="w-2.5 h-2.5 rounded-full bg-green-500/70" />
@@ -140,9 +161,9 @@ export const PortfolioView: React.FC<PortfolioViewProps> = ({ onNavigate }) => {
                   </span>
                 </div>
 
-                <h3 className="text-xl sm:text-2xl font-bold text-white group-hover:text-violet-300 transition-colors">
+                <h2 className="text-xl sm:text-2xl font-bold text-white group-hover:text-violet-300 transition-colors">
                   {project.title}
-                </h3>
+                </h2>
 
                 <p className="text-sm text-slate-300 leading-relaxed">
                   {project.shortDescription}
@@ -214,25 +235,31 @@ export const PortfolioView: React.FC<PortfolioViewProps> = ({ onNavigate }) => {
 
       {/* 5. Detail Modal */}
       {selectedProject && (
-        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="portfolio-modal-title"
+          className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4"
+        >
           <div className="relative w-full max-w-2xl bg-[#0e0e16] border border-slate-700 rounded-2xl p-6 sm:p-8 space-y-6 shadow-2xl max-h-[90vh] overflow-y-auto">
             <button
+              type="button"
               onClick={() => setSelectedProject(null)}
               className="absolute top-5 right-5 p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition-colors cursor-pointer"
               aria-label="Close modal"
             >
-              <X className="w-5 h-5" />
+              <X className="w-5 h-5" aria-hidden="true" />
             </button>
 
             <div className="space-y-2">
               <span className="text-xs font-bold text-violet-400 uppercase tracking-wider">
                 {selectedProject.categoryLabel}
               </span>
-              <h3 className="text-2xl font-bold text-white tracking-tight">
+              <h2 id="portfolio-modal-title" className="text-2xl font-bold text-white tracking-tight">
                 {selectedProject.title}
-              </h3>
+              </h2>
               <p className="text-xs font-mono text-slate-400">
-                Hemant's Role: {selectedProject.role}
+                Hemant&apos;s Role: {selectedProject.role}
               </p>
             </div>
 
@@ -241,13 +268,13 @@ export const PortfolioView: React.FC<PortfolioViewProps> = ({ onNavigate }) => {
             </p>
 
             <div className="space-y-3">
-              <h4 className="text-xs font-bold text-white uppercase tracking-wider">
-                Scope & Work Performed
-              </h4>
+              <h3 className="text-xs font-bold text-white uppercase tracking-wider">
+                Scope &amp; Work Performed
+              </h3>
               <ul className="space-y-2">
                 {selectedProject.workPerformed.map((work, i) => (
                   <li key={i} className="flex items-start gap-2.5 text-xs sm:text-sm text-slate-300">
-                    <CheckCircle2 className="w-4 h-4 text-violet-400 shrink-0 mt-0.5" />
+                    <CheckCircle2 className="w-4 h-4 text-violet-400 shrink-0 mt-0.5" aria-hidden="true" />
                     <span>{work}</span>
                   </li>
                 ))}
@@ -255,9 +282,9 @@ export const PortfolioView: React.FC<PortfolioViewProps> = ({ onNavigate }) => {
             </div>
 
             <div className="space-y-2">
-              <h4 className="text-xs font-bold text-white uppercase tracking-wider">
-                Technologies & Tools
-              </h4>
+              <h3 className="text-xs font-bold text-white uppercase tracking-wider">
+                Technologies &amp; Tools
+              </h3>
               <div className="flex flex-wrap gap-2">
                 {selectedProject.technologies.map((t) => (
                   <span
@@ -310,7 +337,7 @@ export const PortfolioView: React.FC<PortfolioViewProps> = ({ onNavigate }) => {
             rel="noopener noreferrer"
             className="w-full sm:w-auto inline-flex h-12 items-center justify-center gap-2.5 px-6 rounded-xl bg-[#25D366] hover:bg-[#20bd5a] text-white font-bold text-xs shadow-xl shadow-emerald-950/40 transition-all hover:scale-105 whitespace-nowrap"
           >
-            <WhatsAppIcon className="w-4 h-4 text-white" />
+            <WhatsAppIcon className="w-4 h-4 text-white" ariaHidden />
             <span>Chat on WhatsApp (+91 8595639475)</span>
           </a>
 

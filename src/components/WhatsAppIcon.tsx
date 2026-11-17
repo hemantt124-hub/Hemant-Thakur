@@ -5,6 +5,8 @@ interface WhatsAppIconProps {
   size?: number;
   variant?: 'image' | 'svg';
   alt?: string;
+  loading?: 'eager' | 'lazy';
+  ariaHidden?: boolean;
 }
 
 export const WHATSAPP_ICON_IMAGE = '/assets/whatsapp-icon.png';
@@ -16,6 +18,8 @@ export const WhatsAppIcon: React.FC<WhatsAppIconProps> = ({
   size = 20,
   variant = 'image',
   alt = 'WhatsApp',
+  loading = 'eager',
+  ariaHidden = false,
 }) => {
   if (variant === 'svg') {
     return (
@@ -35,11 +39,12 @@ export const WhatsAppIcon: React.FC<WhatsAppIconProps> = ({
   return (
     <img
       src={WHATSAPP_ICON_IMAGE}
-      alt={alt}
+      alt={ariaHidden ? '' : alt}
+      aria-hidden={ariaHidden || undefined}
       width={size}
       height={size}
       className={`shrink-0 block object-contain select-none ${className}`}
-      loading="lazy"
+      loading={loading}
       decoding="async"
     />
   );

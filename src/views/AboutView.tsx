@@ -112,7 +112,7 @@ export const AboutView: React.FC<AboutViewProps> = ({ onNavigate }) => {
                   rel="noopener noreferrer"
                   className="font-mono text-emerald-400 hover:text-emerald-300 transition-colors flex items-center gap-1.5 pt-0.5"
                 >
-                  <WhatsAppIcon className="w-3.5 h-3.5 text-[#25D366] shrink-0" />
+                  <WhatsAppIcon className="w-3.5 h-3.5 text-[#25D366] shrink-0" ariaHidden />
                   <span>{WHATSAPP_PHONE}</span>
                 </a>
               </div>
@@ -125,7 +125,7 @@ export const AboutView: React.FC<AboutViewProps> = ({ onNavigate }) => {
                 rel="noopener noreferrer"
                 className="w-full inline-flex h-11 items-center justify-center gap-2 px-4 rounded-xl bg-[#25D366] hover:bg-[#20bd5a] text-white font-semibold text-xs shadow-md shadow-emerald-950/40 transition-all hover:scale-[1.02] active:scale-[0.98]"
               >
-                <WhatsAppIcon className="w-4 h-4 text-white" />
+                <WhatsAppIcon className="w-4 h-4 text-white" ariaHidden />
                 <span>Chat on WhatsApp</span>
               </a>
 
@@ -134,7 +134,7 @@ export const AboutView: React.FC<AboutViewProps> = ({ onNavigate }) => {
                 className="w-full inline-flex h-11 items-center justify-center gap-2 px-4 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-200 hover:text-white font-semibold text-xs transition-all"
               >
                 <span>Email Me Directly</span>
-                <ArrowUpRight className="w-3.5 h-3.5" />
+                <ArrowUpRight className="w-3.5 h-3.5" aria-hidden="true" />
               </a>
             </div>
           </div>
@@ -268,7 +268,7 @@ export const AboutView: React.FC<AboutViewProps> = ({ onNavigate }) => {
             rel="noopener noreferrer"
             className="w-full sm:w-auto inline-flex h-12 items-center justify-center gap-2.5 px-6 rounded-xl bg-[#25D366] hover:bg-[#20bd5a] text-white font-bold text-xs shadow-xl shadow-emerald-950/40 transition-all hover:scale-105 whitespace-nowrap"
           >
-            <WhatsAppIcon className="w-4 h-4 text-white" />
+            <WhatsAppIcon className="w-4 h-4 text-white" ariaHidden />
             <span>Chat on WhatsApp (+91 8595639475)</span>
           </a>
 
@@ -276,16 +276,20 @@ export const AboutView: React.FC<AboutViewProps> = ({ onNavigate }) => {
             href="mailto:hthemant124@gmail.com?subject=Business%20Enquiry%20–%20Hemant%20Thakur"
             className="w-full sm:w-auto inline-flex h-12 items-center justify-center gap-2 px-6 rounded-xl bg-white text-slate-950 font-bold text-xs shadow-lg hover:bg-slate-100 transition-all hover:scale-105 whitespace-nowrap"
           >
-            <Mail className="w-4 h-4 text-slate-950" />
+            <Mail className="w-4 h-4 text-slate-950" aria-hidden="true" />
             <span>Email Me (hthemant124@gmail.com)</span>
           </a>
 
-          <button
-            onClick={() => onNavigate('portfolio')}
+          <a
+            href="/portfolio"
+            onClick={(e) => {
+              e.preventDefault();
+              onNavigate('portfolio');
+            }}
             className="w-full sm:w-auto inline-flex h-12 items-center justify-center gap-2 px-6 rounded-xl bg-slate-900 border border-slate-700 text-slate-200 hover:text-white font-medium text-xs transition-colors cursor-pointer whitespace-nowrap"
           >
             <span>Explore Portfolio Showcase</span>
-          </button>
+          </a>
         </div>
       </section>
     </div>

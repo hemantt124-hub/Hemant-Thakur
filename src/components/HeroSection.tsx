@@ -12,7 +12,10 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate }) => {
   return (
     <section className="relative pt-28 pb-16 lg:pt-36 lg:pb-24 overflow-hidden">
       {/* Background radial glow */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[500px] bg-gradient-to-tr from-violet-600/10 via-indigo-600/15 to-transparent blur-[120px] pointer-events-none" />
+      <div
+        aria-hidden="true"
+        className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[500px] bg-gradient-to-tr from-violet-600/10 via-indigo-600/15 to-transparent blur-[120px] pointer-events-none"
+      />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Split Hero: Typography Left, 3D Canvas Right */}
@@ -21,13 +24,16 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate }) => {
           <div className="lg:col-span-7 space-y-6 text-left">
             {/* Subtle editorial kicker */}
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-md bg-violet-950/40 border border-violet-800/40 text-violet-300 text-xs font-medium tracking-wide">
-              <Sparkles className="w-3.5 h-3.5 text-violet-400" />
-              <span>Digital Growth Specialist · Based in Delhi, India</span>
+              <Sparkles className="w-3.5 h-3.5 text-violet-400" aria-hidden="true" />
+              <span>Hi, I&apos;m Hemant Thakur · Based in Delhi, India</span>
             </div>
 
             {/* Main Heading */}
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-[1.1] text-balance">
-              Hi, I'm <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-violet-200 to-indigo-300">Hemant Thakur</span>.
+            <h1 className="text-4xl sm:text-5xl lg:text-[3.4rem] font-extrabold text-white tracking-tight leading-[1.1] text-balance">
+              Freelance Digital Marketer &amp;{' '}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-violet-200 to-indigo-300">
+                SEO Specialist in Delhi
+              </span>
             </h1>
 
             {/* Supporting Heading */}
@@ -46,8 +52,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate }) => {
                 href="mailto:hthemant124@gmail.com?subject=Business%20Enquiry%20%E2%80%93%20Hemant%20Thakur"
                 className="w-full sm:w-auto inline-flex h-12 items-center justify-center gap-2 px-6 rounded-xl bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white font-semibold text-sm shadow-lg shadow-violet-900/30 transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] whitespace-nowrap"
               >
-                <span>Let's Work Together</span>
-                <ArrowUpRight className="w-4 h-4" />
+                <span>Let&apos;s Work Together</span>
+                <ArrowUpRight className="w-4 h-4" aria-hidden="true" />
               </a>
 
               <a
@@ -56,16 +62,20 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate }) => {
                 rel="noopener noreferrer"
                 className="w-full sm:w-auto inline-flex h-12 items-center justify-center gap-2.5 px-6 rounded-xl bg-[#25D366] hover:bg-[#20bd5a] text-white font-semibold text-sm shadow-lg shadow-emerald-950/40 transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] whitespace-nowrap"
               >
-                <WhatsAppIcon className="w-4 h-4 text-white" />
-                <span>Let's Chat on WhatsApp</span>
+                <WhatsAppIcon className="w-4 h-4 text-white" ariaHidden />
+                <span>Let&apos;s Chat on WhatsApp</span>
               </a>
 
-              <button
-                onClick={() => onNavigate('portfolio')}
+              <a
+                href="/portfolio"
+                onClick={(e) => {
+                  e.preventDefault();
+                  onNavigate('portfolio');
+                }}
                 className="w-full sm:w-auto inline-flex h-12 items-center justify-center gap-2 px-6 rounded-xl bg-slate-900/80 hover:bg-slate-800 border border-slate-700/80 text-slate-200 hover:text-white font-medium text-sm transition-all duration-200 cursor-pointer whitespace-nowrap"
               >
                 <span>Explore My Work</span>
-              </button>
+              </a>
             </div>
 
             {/* Direct Email note & Delhi badge */}

@@ -1,6 +1,7 @@
 import React from 'react';
 import { PageType } from '../types';
-import { Mail, Globe, ArrowUpRight, Linkedin, Twitter, Github, Instagram, MapPin } from 'lucide-react';
+import { getRoutePath, OFFICIAL_SOCIALS } from '../seo/routesMeta';
+import { Mail, Globe, ArrowUpRight, Linkedin, Instagram, MapPin } from 'lucide-react';
 import { WhatsAppIcon, WHATSAPP_LINK, WHATSAPP_PHONE } from './WhatsAppIcon';
 
 interface FooterProps {
@@ -10,15 +11,31 @@ interface FooterProps {
 export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
   const currentYear = new Date().getFullYear();
 
-  const handleNav = (page: PageType) => {
+  const handleNav = (page: PageType, e?: React.MouseEvent<HTMLAnchorElement>, hash?: string) => {
+    if (e) e.preventDefault();
     onNavigate(page);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (hash) {
+      window.history.replaceState(null, '', `${getRoutePath(page)}#${hash}`);
+      setTimeout(() => {
+        const target = document.getElementById(hash);
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth' });
+        } else {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+      }, 120);
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   };
 
   return (
     <footer className="border-t border-slate-800/80 bg-[#060608] text-slate-400 relative overflow-hidden">
       {/* Subtle background ambient radial light */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-24 bg-gradient-to-b from-violet-900/10 to-transparent pointer-events-none" />
+      <div
+        aria-hidden="true"
+        className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-24 bg-gradient-to-b from-violet-900/10 to-transparent pointer-events-none"
+      />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 lg:gap-12">
@@ -31,8 +48,8 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
               Digital Marketing Specialist, Web Developer, and Technical SEO Strategist based in Delhi, India. Helping brands achieve sustainable organic visibility, high-converting web applications, and measurable revenue growth.
             </p>
             <div className="flex items-center gap-2 text-xs text-slate-300 pt-1">
-              <MapPin className="w-3.5 h-3.5 text-violet-400 shrink-0" />
-              <span>Delhi NCR, India · Available for Remote & Global Projects</span>
+              <MapPin className="w-3.5 h-3.5 text-violet-400 shrink-0" aria-hidden="true" />
+              <span>Delhi NCR, India · Available for Remote &amp; Global Projects</span>
             </div>
             <div className="pt-2 flex items-center gap-3">
               <a
@@ -42,52 +59,25 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
                 aria-label="Chat with Hemant Thakur on WhatsApp"
                 className="w-8 h-8 rounded-lg bg-emerald-950/40 border border-emerald-800/50 hover:border-emerald-500/80 text-emerald-400 hover:text-white flex items-center justify-center transition-colors"
               >
-                <WhatsAppIcon className="w-4 h-4 text-[#25D366]" />
+                <WhatsAppIcon className="w-4 h-4 text-[#25D366]" loading="lazy" ariaHidden />
               </a>
               <a
-                href="https://linkedin.com"
+                href={OFFICIAL_SOCIALS.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="Hemant Thakur on LinkedIn"
+                aria-label="Hemant Thakur Official LinkedIn Profile"
                 className="w-8 h-8 rounded-lg bg-slate-900 border border-slate-800 hover:border-violet-500/50 hover:text-white flex items-center justify-center transition-colors"
               >
-                <Linkedin className="w-4 h-4" />
+                <Linkedin className="w-4 h-4" aria-hidden="true" />
               </a>
               <a
-                href="https://x.com"
+                href={OFFICIAL_SOCIALS.instagram}
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="Hemant Thakur on X / Twitter"
+                aria-label="Hemant Thakur Official Instagram Profile"
                 className="w-8 h-8 rounded-lg bg-slate-900 border border-slate-800 hover:border-violet-500/50 hover:text-white flex items-center justify-center transition-colors"
               >
-                <Twitter className="w-4 h-4" />
-              </a>
-              <a
-                href="https://github.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Hemant Thakur on GitHub"
-                className="w-8 h-8 rounded-lg bg-slate-900 border border-slate-800 hover:border-violet-500/50 hover:text-white flex items-center justify-center transition-colors"
-              >
-                <Github className="w-4 h-4" />
-              </a>
-              <a
-                href={WHATSAPP_LINK}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Chat with Hemant Thakur on WhatsApp"
-                className="w-8 h-8 rounded-lg bg-emerald-950/40 border border-emerald-800/60 hover:border-emerald-500/80 hover:bg-emerald-900/60 flex items-center justify-center transition-colors"
-              >
-                <WhatsAppIcon className="w-4 h-4" />
-              </a>
-              <a
-                href="https://instagram.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Hemant Thakur on Instagram"
-                className="w-8 h-8 rounded-lg bg-slate-900 border border-slate-800 hover:border-violet-500/50 hover:text-white flex items-center justify-center transition-colors"
-              >
-                <Instagram className="w-4 h-4" />
+                <Instagram className="w-4 h-4" aria-hidden="true" />
               </a>
             </div>
           </div>
@@ -99,44 +89,49 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
             </h2>
             <ul className="space-y-2.5 text-sm">
               <li>
-                <button
-                  onClick={() => handleNav('home')}
-                  className="hover:text-violet-300 transition-colors text-left"
+                <a
+                  href={getRoutePath('home')}
+                  onClick={(e) => handleNav('home', e)}
+                  className="hover:text-violet-300 transition-colors text-left inline-block"
                 >
                   Home
-                </button>
+                </a>
               </li>
               <li>
-                <button
-                  onClick={() => handleNav('about')}
-                  className="hover:text-violet-300 transition-colors text-left"
+                <a
+                  href={getRoutePath('about')}
+                  onClick={(e) => handleNav('about', e)}
+                  className="hover:text-violet-300 transition-colors text-left inline-block"
                 >
                   About Me
-                </button>
+                </a>
               </li>
               <li>
-                <button
-                  onClick={() => handleNav('services')}
-                  className="hover:text-violet-300 transition-colors text-left"
+                <a
+                  href={getRoutePath('services')}
+                  onClick={(e) => handleNav('services', e)}
+                  className="hover:text-violet-300 transition-colors text-left inline-block"
                 >
                   Services
-                </button>
+                </a>
               </li>
               <li>
-                <button
-                  onClick={() => handleNav('portfolio')}
-                  className="hover:text-violet-300 transition-colors text-left"
+                <a
+                  href={getRoutePath('portfolio')}
+                  onClick={(e) => handleNav('portfolio', e)}
+                  className="hover:text-violet-300 transition-colors text-left inline-block"
                 >
                   Portfolio
-                </button>
+                </a>
               </li>
               <li>
-                <button
-                  onClick={() => handleNav('contact')}
-                  className="hover:text-violet-300 transition-colors text-left"
+                <a
+                  href={getRoutePath('contact')}
+                  onClick={(e) => handleNav('contact', e)}
+                  className="hover:text-violet-300 transition-colors text-left inline-block"
                 >
-                  Contact & Inquiries
-                </button>
+                  Contact &amp; Inquiries
+                </a>
               </li>
             </ul>
           </div>
@@ -148,44 +143,49 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
             </h2>
             <ul className="space-y-2.5 text-sm">
               <li>
-                <button
-                  onClick={() => handleNav('services')}
-                  className="hover:text-violet-300 transition-colors text-left"
+                <a
+                  href="/services#digital-marketing-delhi"
+                  onClick={(e) => handleNav('services', e, 'digital-marketing-delhi')}
+                  className="hover:text-violet-300 transition-colors text-left inline-block"
                 >
                   Digital Marketing Delhi
-                </button>
+                </a>
               </li>
               <li>
-                <button
-                  onClick={() => handleNav('services')}
-                  className="hover:text-violet-300 transition-colors text-left"
+                <a
+                  href="/services#web-design-development"
+                  onClick={(e) => handleNav('services', e, 'web-design-development')}
+                  className="hover:text-violet-300 transition-colors text-left inline-block"
                 >
-                  Web Design & Development
-                </button>
+                  Web Design &amp; Development
+                </a>
               </li>
               <li>
-                <button
-                  onClick={() => handleNav('services')}
-                  className="hover:text-violet-300 transition-colors text-left"
+                <a
+                  href="/services#seo-services-delhi"
+                  onClick={(e) => handleNav('services', e, 'seo-services-delhi')}
+                  className="hover:text-violet-300 transition-colors text-left inline-block"
                 >
                   Technical SEO Delhi
-                </button>
+                </a>
               </li>
               <li>
-                <button
-                  onClick={() => handleNav('services')}
-                  className="hover:text-violet-300 transition-colors text-left"
+                <a
+                  href="/services#performance-marketing-delhi"
+                  onClick={(e) => handleNav('services', e, 'performance-marketing-delhi')}
+                  className="hover:text-violet-300 transition-colors text-left inline-block"
                 >
                   Performance Marketing
-                </button>
+                </a>
               </li>
               <li>
-                <button
-                  onClick={() => handleNav('services')}
-                  className="hover:text-violet-300 transition-colors text-left"
+                <a
+                  href="/services#social-media-marketing-delhi"
+                  onClick={(e) => handleNav('services', e, 'social-media-marketing-delhi')}
+                  className="hover:text-violet-300 transition-colors text-left inline-block"
                 >
                   Social Media Strategy
-                </button>
+                </a>
               </li>
             </ul>
           </div>
@@ -200,7 +200,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
               className="group block p-3 rounded-lg bg-slate-900/80 border border-slate-800 hover:border-violet-500/40 transition-colors"
             >
               <div className="text-xs text-slate-300 mb-1 flex items-center gap-1.5">
-                <Mail className="w-3.5 h-3.5 text-violet-400" />
+                <Mail className="w-3.5 h-3.5 text-violet-400" aria-hidden="true" />
                 <span>Primary Email</span>
               </div>
               <div className="text-sm font-medium text-white group-hover:text-violet-300 transition-colors break-all">
@@ -215,7 +215,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
               className="group block p-3 rounded-lg bg-emerald-950/30 border border-emerald-800/50 hover:border-emerald-500/80 transition-colors"
             >
               <div className="text-xs text-slate-300 mb-1 flex items-center gap-1.5">
-                <WhatsAppIcon className="w-3.5 h-3.5 text-[#25D366]" />
+                <WhatsAppIcon className="w-3.5 h-3.5 text-[#25D366]" loading="lazy" ariaHidden />
                 <span className="text-emerald-400 font-medium">WhatsApp Direct</span>
               </div>
               <div className="text-sm font-medium text-white group-hover:text-emerald-300 transition-colors">
@@ -225,7 +225,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
 
             <div className="p-3 rounded-lg bg-slate-900/50 border border-slate-800/80 text-xs text-slate-300 space-y-1">
               <div className="flex items-center gap-1.5 text-slate-300">
-                <Globe className="w-3.5 h-3.5 text-indigo-400" />
+                <Globe className="w-3.5 h-3.5 text-indigo-400" aria-hidden="true" />
                 <span>Official Domain</span>
               </div>
               <div className="text-white font-mono">hemantthakur.in</div>
@@ -236,7 +236,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
               className="inline-flex items-center gap-1.5 text-xs font-medium text-violet-400 hover:text-violet-300 pt-1 transition-colors"
             >
               <span>Send Business Inquiry</span>
-              <ArrowUpRight className="w-3.5 h-3.5" />
+              <ArrowUpRight className="w-3.5 h-3.5" aria-hidden="true" />
             </a>
           </div>
         </div>
@@ -245,7 +245,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
         <div className="mt-14 pt-8 border-t border-slate-800/60 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400">
           <p>© {currentYear} Hemant Thakur. All rights reserved.</p>
           <p className="text-slate-400">
-            Delhi, India · Designed for Performance, Accessibility & Organic Search Dominance
+            Delhi, India · Designed for Performance, Accessibility &amp; Organic Search Dominance
           </p>
         </div>
       </div>
